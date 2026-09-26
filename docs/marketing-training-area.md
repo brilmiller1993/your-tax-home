@@ -228,6 +228,110 @@ Track separately the number of businesses contacted, partnership requests, appro
 
 Do not put return data, documents, income, dependents, SSNs, refund amounts, or tax-preparation notes in marketing records. Provide a secure, role-approved handoff to the tax office for client intake.
 
+## Internal referral tracking & payout form
+
+Add a tenant-branded **Referral Tracking & Payout Form** in the admin's Marketing workspace. Keep the same clean, full-width form layout used by the other internal marketing forms, with clear section headings, consistent field order, mobile-friendly controls, and the standard centered gold submit/save action. Use {{tenant.company_name}} wherever the company name appears. Do not include a sample company name or a preset city/state. This is an internal company record, not an employee-facing public form.
+
+Store the record in the authenticated tenant backend. The submitting marketing employee may create a referral and see limited non-sensitive progress for their own submission. Only tenant admins and specifically authorized tax-office/preparer roles may verify prior-client status, intake completion, whether the customer filed, processing/acceptance status, internal client IDs, approved compensation, or payment details. Marketing users must not see tax returns, taxpayer documents, filing details, processing confirmations, or payout/payment records. Do not place tax documents, SSNs, income, dependents, refund amounts, or tax-preparation notes in this area. If the tax office needs to confirm a filing, link to an authorized internal record or store a restricted verification flag and timestamp; do not copy return data into the marketing database.
+
+### Section 1 — Referral source
+
+- Referral type: Business referral (potential incentive $100); Individual referral (potential incentive $50); Other (describe)
+- Referral date
+- Referring business or individual
+- Business type, when applicable
+- Referring representative and representative ID, when applicable
+- Referrer phone and email
+
+### Section 2 — Referred customer
+
+- Customer name
+- Customer phone and email
+- Date referral received
+- How referral was received: in person, phone, website, text, email, flyer/card, business partner, social media, or other
+- Consent/permission confirmation for recording and following up on the referred contact
+
+Collect only the contact details needed to verify and follow up on a referral. Do not request tax identifiers or tax documents.
+
+### Section 3 — Referral verification (authorized admin/tax-office roles only)
+
+- Referring source properly identified: yes/no
+- Customer already known to the company: yes/no
+- Referral submitted before the customer entered the intake process: yes/no/unable to determine
+- Duplicate referral: no/yes
+- Required intake completed: yes/no, with date
+- Customer filed through {{tenant.company_name}}: yes/no/pending, with filing/processing date when permitted
+- Filing accepted/processed according to company procedures: yes/no/pending
+- Verification notes
+
+Do not reveal prior-client, intake, filing, or processing answers to marketing staff. For marketing-role views, show only a neutral status such as **Submitted**, **Under review**, **Approved**, **Not qualified**, or **Paid**, according to tenant permissions.
+
+### Section 4 — Referral qualification
+
+- Potential amount: business referral $100; individual referral $50
+- Status: Pending, Qualified, Approved for Payment, Paid, Not Qualified, Duplicate, Existing Client, Customer Did Not File, Unable to Verify, or Other
+- Reason for disqualification, when applicable
+- Qualification notes and timestamp
+
+A lead, inquiry, call, appointment, or business introduction alone does not qualify for payment. A potential incentive is not an approved amount or promise of payment.
+
+### Section 5 — Management verification
+
+- Verified by and title
+- Verification date and notes
+- Management decision: Approve, Deny, or Hold for Additional Information
+- Approved referral amount
+- Decision timestamp and audit history
+
+Approval must follow the tenant's configured referral rules and applicable requirements. Authorized admins control eligibility and the final approved amount. Record changes to referral rates or program terms as dated tenant audit events.
+
+### Section 6 — Payment record (authorized admin only)
+
+- Approved amount
+- Payment method: Payroll, Company Check, ACH/Direct Deposit, or Other Approved Method
+- Payment date
+- Payment reference/transaction number
+- Payment status: Pending, Submitted, Paid, Returned/Rejected, or Other
+- Amount paid and outstanding balance, calculated from confirmed payment records
+- Payment notes
+
+Keep payout data visible only to authorized tenant admins and payroll/finance roles. Do not display payment method, transaction reference, or payout record to marketing employees.
+
+### Section 7 — Referral tracking notes
+
+- Business partnership/referral notes
+- Follow-up required: yes/no
+- Follow-up date
+- Assigned staff member
+- Outcome
+
+### Section 8 — Supporting documentation checklist
+
+Allow authorized users to attach or reference: referral submission; business partnership agreement; customer intake record; referral source confirmation; filing/processing confirmation; management approval; payment record; or other approved documentation. Store uploads privately and enforce tenant and role permissions. Tax/customer intake and filing documentation must remain in the tax office's authorized document system; the marketing referral record may reference it without exposing the document to marketing staff.
+
+### Section 9 — Final certification
+
+- Prepared by, signature/acknowledgment, and date
+- Reviewed by, signature/acknowledgment, and date
+- Certification text: “I certify that the information recorded on this form is accurate to the best of my knowledge and that the referral has been reviewed according to {{tenant.company_name}} procedures.”
+
+Keep signature lines blank until signed. Record signed acknowledgments and timestamps privately with an audit trail.
+
+### Internal use only
+
+- Referral ID
+- Tax year
+- Client ID
+- Referral source ID
+- Business partner ID
+- Amount approved
+- Amount paid
+- Outstanding balance
+- Final status
+- Additional notes
+
+Restrict this subsection to authorized admin/tax-office/payroll roles. Never expose the internal client ID or tax-year association to marketing staff. Link or reference authorized tax-system records without copying taxpayer or return information into this workspace.
+
 ## Tenant admin reporting and management
 
 Add an admin-only Marketing overview and detail views, scoped to that tenant. Include date range and position filters and export of permitted columns to CSV. Provide these summary metrics:
@@ -235,7 +339,7 @@ Add an admin-only Marketing overview and detail views, scoped to that tenant. In
 - Applications submitted, awaiting review, approved, and not approved
 - Active marketing employees by assigned position
 - Businesses contacted, partnership requests, approved/active partnerships, and follow-ups due/overdue
-- Qualified individual/business referrals, conversion/filed totals, pending review, and incentive totals/status
+- Qualified individual/business referrals, conversion/filed totals, pending review, approved and paid incentive totals/status; restrict payout-level details to authorized admin/payroll roles
 - Outreach shifts and actual hours by employee, position, campaign, date, and employee-entered service location
 - Sign-holding time and completed shifts
 - Flyer/business-card counts, event attendance, and social promotion activity
@@ -255,7 +359,7 @@ Adapt names to the existing schema rather than duplicating existing user/account
 - outreach_shifts: tenant_id, user_id, campaign_id, activity type, actual time fields, employee-entered service area, counts, notes, review status
 - outreach_media: tenant_id, shift_id, private_storage_key, uploaded_by, capture time, reviewer status
 - business_partners: tenant_id, created_by, business/contact fields, outreach status, follow-up dates, approval audit fields
-- marketing_referrals: tenant_id, created_by, referral type, permitted referral contact fields, source, status, client conversion/filed verification flags, incentive status
+- marketing_referrals: tenant_id, created_by, referral type, permitted referral contact fields, source, status, restricted admin-only verification flags/dates, qualification decision, approved amount, payment method/reference/status, paid amount, outstanding balance, restricted internal tax-system references (never tax-return content)
 - marketing_audit_events: tenant_id, actor_id, action, target type/id, timestamp, safe change summary
 
 Add indexes for tenant, status, assigned employee, activity date, and follow-up date. Add row-level authorization and private object-storage rules for every tenant-owned table/object. Use minimal PII and prevent marketing-role reads of tax-return or taxpayer data.
@@ -267,6 +371,8 @@ Add indexes for tenant, status, assigned employee, activity date, and follow-up 
 - Approval plus position assignment unlocks only the assigned employee workspace and checklist.
 - Admin can choose a different first position for different workers; the worker sees the matching training and tasks.
 - Worker can submit a shift report, partner record, referral, and permitted upload; another authenticated team member/admin sees the saved records only if their tenant role permits it.
+- Referral form preserves all nine sections plus internal-use fields; company branding is dynamic, signature fields stay blank until signed, and no sample company name or preset location appears.
+- Marketing staff cannot view prior-client status, tax-year/client IDs, intake or filing verification, payment method, transaction references, or payout records; authorized admins/tax-office/payroll roles can complete the restricted verification and payout workflow.
 - Admin report counts distinguish contacted businesses from approved partnerships and distinguish leads from qualified/filed referrals.
 - Worker can enter their preferred city/location and actual service location without any preset city/state in the template.
 - White-label name, logo, and colors appear in the employee workspace and generated agreement. No sample company's name or preset city/state appears in any visible UI or default document text.
